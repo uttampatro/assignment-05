@@ -12,8 +12,16 @@ const login = async ({ email, password }) => {
             JSON.stringify(response.data.accessToken)
         );
     }
-    console.log(response.data)
+    console.log(response.data);
     return response.data;
 };
 
-export default login;
+const logout = async () => {
+    try {
+        localStorage.clear();
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export { login, logout };

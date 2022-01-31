@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     AppBar,
@@ -10,9 +10,13 @@ import {
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../../services/authService';
+
 
 function Header() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
     const handleClick = event => {
@@ -20,6 +24,15 @@ function Header() {
     };
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const loggingOut = async () => {
+        try {
+            await logout();
+            navigate('/');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -53,6 +66,13 @@ function Header() {
                                 onClick={handleClose}
                             >
                                 User Data
+                            </MenuItem>
+                            <hr />
+                            <MenuItem
+                                style={{ paddingRight: '10px' }}
+                                onClick={loggingOut}
+                            >
+                                Logout
                             </MenuItem>
                         </Menu>
                         <Typography

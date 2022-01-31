@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import login from '../../services/authService';
+import { login } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
