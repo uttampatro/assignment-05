@@ -16,7 +16,7 @@ const login = async ({ email, password }) => {
                 JSON.stringify(response.data.accessToken)
             );
         }
-        console.log(response.data);
+        // console.log(response.data);
         return response.data;
     } catch (error) {
         console.log(error);
