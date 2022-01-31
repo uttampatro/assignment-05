@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import {
     TableHead,
     TableRow,
     TableBody,
     Table,
+    Button,
     TableCell,
 } from '@mui/material';
 import Header from '../../components/header';
+import { deleteUser, getAllUser } from '../../services/userService';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles({
     homeBody: {
@@ -43,7 +46,34 @@ const useStyles = makeStyles({
 
 function Home() {
     const classes = useStyles();
-    
+    const navigate = useNavigate();
+    const [users, setUsers] = useState([]);
+
+    const fetchUserList = async () => {
+        try {
+            const data = await getAllUser();
+            setUsers(data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const deletingUser = async id => {
+        try {
+            const data = await deleteUser(id);
+            if (data) {
+                alert('Deleted user successfully');
+            }
+            window.location = window.location;
+            navigate('/home');
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchUserList();
+    }, []);
 
     return (
         <div>
@@ -61,39 +91,27 @@ function Home() {
                                 <TableCell>Delete</TableCell>
                             </TableRow>
                         </TableHead>
-                        {/* <TableBody>
-                            {stableSort(
-                                users,
-                                getComparator(order, orderBy)
-                            ).map((user) => {
+                        <TableBody>
+                            {users.map(user => {
                                 return (
                                     <TableRow
                                         className={classes.row}
                                         key={user._id}
                                     >
+                                        {/* <TableCell>{user._id}</TableCell> */}
+                                        <TableCell>{user.username}</TableCell>
                                         <TableCell>
-                                            <input
-                                                onClick={() =>
-                                                    onCheckBoxClick(user)
-                                                }
-                                                style={{ cursor: 'pointer' }}
-                                                type="checkbox"
-                                            />
-                                        </TableCell>
-                                        <TableCell>{user._id}</TableCell>
-                                        <TableCell>{user.name}</TableCell>
-                                        <TableCell>
-                                            {user.phoneNumber}
+                                            {user.mobileNumber}
                                         </TableCell>
                                         <TableCell>{user.email}</TableCell>
-                                        <TableCell>{user.hobbies}</TableCell>
-                                        <TableCell>                                           
+                                        <TableCell>{user.address}</TableCell>
+                                        <TableCell>
                                             <Button
-                                                color="secondary"
+                                                color="primary"
                                                 variant="contained"
-                                                // onClick={() =>
-                                                //     deleteUser(user._id)
-                                                // }
+                                                onClick={() =>
+                                                    deletingUser(user._id)
+                                                }
                                             >
                                                 Delete
                                             </Button>
@@ -101,7 +119,7 @@ function Home() {
                                     </TableRow>
                                 );
                             })}
-                        </TableBody> */}
+                        </TableBody>
                     </Table>
                 </form>
             </div>
