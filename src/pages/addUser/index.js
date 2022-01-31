@@ -11,6 +11,7 @@ import {
     Typography,
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createUser } from '../../services/userService';
 
 const theme = createTheme();
 
@@ -22,20 +23,28 @@ function AddUser() {
         address: '',
     });
 
-    const onAddInputChange = (e) => {
-        setNewUser((prev) => {
+    const handleSubmit = async e => {
+        try {
+            const user = await createUser(newUser);
+            setNewUser({
+                name: '',
+                mobileNumber: '',
+                email: '',
+                address: '',
+            });
+            if (user) {
+                alert('User added successfully');
+            }
+        } catch (error) {
+            console.log(error);
+            alert('something went wrong');
+        }
+    };
+
+    const onAddInputChange = e => {
+        setNewUser(prev => {
             return { ...prev, [e.target.name]: e.target.value };
         });
-    };
-
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-
-    const handleClick = event => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
     };
 
     return (
@@ -62,14 +71,14 @@ function AddUser() {
                             }}
                         />
                         <Typography component="h1" variant="h5">
-                            Sign In
+                            Add User
                         </Typography>
                         <Box component="form" sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
                                 <Grid item xs={12}>
                                     <TextField
                                         required
-                                        // value={email}
+                                        value={newUser.username}
                                         onChange={onAddInputChange}
                                         fullWidth
                                         id="username"
@@ -80,19 +89,19 @@ function AddUser() {
                                 <Grid item xs={12}>
                                     <TextField
                                         required
-                                        // value={email}
+                                        value={newUser.mobileNumber}
                                         onChange={onAddInputChange}
                                         fullWidth
                                         type="number"
                                         id="Mobile Number"
                                         label="Mobile Number"
-                                        name="Mobile Number"
+                                        name="mobileNumber"
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
                                         required
-                                        // value={email}
+                                        value={newUser.email}
                                         onChange={onAddInputChange}
                                         fullWidth
                                         id="email"
@@ -104,18 +113,18 @@ function AddUser() {
                                 <Grid item xs={12}>
                                     <TextField
                                         required
-                                        // value={password}
+                                        value={newUser.address}
                                         onChange={onAddInputChange}
                                         fullWidth
-                                        name="Address"
+                                        name="address"
                                         label="Address"
-                                        id="Address"
+                                        id="address"
                                     />
                                 </Grid>
                             </Grid>
                             <Button
                                 // disabled={isLoggingIn}
-                                // onClick={handleSubmit}
+                                onClick={handleSubmit}
                                 type="submit"
                                 fullWidth
                                 variant="contained"
@@ -128,7 +137,7 @@ function AddUser() {
                                 }}
                             >
                                 {/* {isLoggingIn ? "Singing In..." : "Sign In"} */}
-                                Add User
+                                Add
                             </Button>
                         </Box>
                     </Box>

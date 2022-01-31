@@ -13,7 +13,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../services/authService';
 
-
 function Header() {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
@@ -30,6 +29,22 @@ function Header() {
         try {
             await logout();
             navigate('/');
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const addUser = async () => {
+        try {
+            navigate('/addUser');
+            setAnchorEl(null);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const goToHome = async () => {
+        try {
+            navigate('/home');
+            setAnchorEl(null);
         } catch (error) {
             console.log(error);
         }
@@ -59,11 +74,11 @@ function Header() {
                             onClose={handleClose}
                             TransitionComponent={Fade}
                         >
-                            <MenuItem onClick={handleClose}>Add User</MenuItem>
+                            <MenuItem onClick={addUser}>Add User</MenuItem>
                             <hr />
                             <MenuItem
                                 style={{ paddingRight: '10px' }}
-                                onClick={handleClose}
+                                onClick={goToHome}
                             >
                                 User Data
                             </MenuItem>
