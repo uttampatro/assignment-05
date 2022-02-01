@@ -44,7 +44,7 @@ const useStyles = makeStyles({
     },
 });
 
-function Home() {
+function Home({ auth }) {
     const classes = useStyles();
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
@@ -77,7 +77,7 @@ function Home() {
 
     return (
         <div>
-            <Header />
+            <Header auth={auth} />
             <div className={classes.homeBody}>
                 <form method="post">
                     <Table className={classes.table}>

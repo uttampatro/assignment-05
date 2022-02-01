@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
-function Login() {
+function Login({ auth }) {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -28,6 +28,7 @@ function Login() {
             if (!user) {
                 alert('Invalid Credential');
             } else {
+                auth()
                 navigate('/home');
             }
         } catch (error) {
@@ -87,7 +88,6 @@ function Login() {
                             </Grid>
                         </Grid>
                         <Button
-                            // disabled={isLoggingIn}
                             onClick={handleSubmit}
                             type="submit"
                             fullWidth
@@ -100,7 +100,6 @@ function Login() {
                                 color: 'black',
                             }}
                         >
-                            {/* {isLoggingIn ? "Singing In..." : "Sign In"} */}
                             Sign In
                         </Button>
                     </Box>

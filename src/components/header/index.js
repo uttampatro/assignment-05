@@ -13,7 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../services/authService';
 
-function Header() {
+function Header({ auth }) {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -28,6 +28,7 @@ function Header() {
     const loggingOut = async () => {
         try {
             await logout();
+            auth();
             navigate('/');
         } catch (error) {
             console.log(error);
@@ -95,7 +96,7 @@ function Header() {
                             color="inherit"
                             component="div"
                         >
-                            User Data
+                            Users
                         </Typography>
                     </Toolbar>
                 </AppBar>

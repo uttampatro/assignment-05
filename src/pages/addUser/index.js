@@ -15,7 +15,7 @@ import { createUser } from '../../services/userService';
 
 const theme = createTheme();
 
-function AddUser() {
+function AddUser({ auth }) {
     const [newUser, setNewUser] = useState({
         username: '',
         mobileNumber: '',
@@ -24,6 +24,7 @@ function AddUser() {
     });
 
     const handleSubmit = async e => {
+        e.preventDefault();
         try {
             const user = await createUser(newUser);
             setNewUser({
@@ -49,7 +50,7 @@ function AddUser() {
 
     return (
         <div>
-            <Header />
+            <Header auth={auth} />
             <ThemeProvider theme={theme}>
                 <Container component="main" maxWidth="xs">
                     <CssBaseline />
@@ -123,7 +124,6 @@ function AddUser() {
                                 </Grid>
                             </Grid>
                             <Button
-                                // disabled={isLoggingIn}
                                 onClick={handleSubmit}
                                 type="submit"
                                 fullWidth
@@ -136,7 +136,6 @@ function AddUser() {
                                     color: 'black',
                                 }}
                             >
-                                {/* {isLoggingIn ? "Singing In..." : "Sign In"} */}
                                 Add
                             </Button>
                         </Box>
